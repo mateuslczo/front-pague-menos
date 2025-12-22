@@ -7,15 +7,25 @@ interface customListProps<T> {
     renderItem?: (item: T) => ReactNode;
 }
 
+const hasArray = (obj: object) => {
+
+    for (const key in obj) {
+        const value = (obj as any)[key];
+        if (Array.isArray(value)) {
+            return value;
+        }
+    }
+    return [];
+}
+
 export default function CustomList<T extends object>({ items, renderItem }: customListProps<T>) {
 
-    if (!Array.isArray(items)) {
-        return <div className="p-4 text-center text-gray-500">{items}</div>
-    }
+    const itArray = hasArray(items);
 
     return (
         <div className="space-y-3">
-            {items.map((item, index) => (
+
+            {itArray.map((item, index) => (
 
                 <div key={index} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                     {renderItem ? (renderItem(item)) : (<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
