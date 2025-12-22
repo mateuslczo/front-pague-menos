@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NumericFormat } from 'react-number-format';
 import { formatCurrencyValue } from "../utils/formatters";
-import { calculateItemTotal } from "../utils/calculations";
+import { calculateItemTotal, calculateOrderTotal } from "../utils/calculations";
 import { Order } from "@/types/interfaces/order";
 
 import OrderMasterModal from "@/components/ui/OrderMasterModal";
@@ -23,7 +23,7 @@ export default function OrderForm() {
   const router = useRouter();
   const scrollToTop = useScrollToTop();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [openOrderMasterModal, setOpenOrderMasterModal] = useState<boolean>();
+  const [openOrderMasterModal, setOpenOrderMasterModal] = useState<boolean>(false);
 
   const {
     formData,
@@ -95,7 +95,7 @@ export default function OrderForm() {
       setOrders(result);
     };
 
-    if(openOrderMasterModal){
+    if (openOrderMasterModal) {
       fetchOrders()
     }
   }, [openOrderMasterModal])
@@ -246,9 +246,7 @@ export default function OrderForm() {
           </div>
           <div className={styles.summaryRow}>
             <span>Valor Total:</span>
-            <span className={styles.totalAmount}>
-              R$ {formatCurrencyValue(totalOrder)} {/*calculateOrderTotal(formData.orderItems))*/}
-            </span>
+            <span className={styles.totalAmount}>R$ {formatCurrencyValue(Number(calculateOrderTotal(formData.orderItems)))} </span>
           </div>
         </div>
 
@@ -293,7 +291,7 @@ export default function OrderForm() {
             Cancelar
           </button>
         </div>
-      </form>
+      </form >
 
       <OrderSuccessModal
         isOpen={showSuccessModal}
