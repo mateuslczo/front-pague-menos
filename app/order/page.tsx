@@ -22,7 +22,7 @@ import { useOrder } from "@/hooks/order/useOrder";
 export default function OrderForm() {
   const router = useRouter();
   const scrollToTop = useScrollToTop();
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false); 
   const [openOrderMasterModal, setOpenOrderMasterModal] = useState<boolean>(false);
 
   const {
